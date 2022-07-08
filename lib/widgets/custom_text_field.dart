@@ -7,10 +7,12 @@ class CustomTextField extends StatelessWidget {
       required this.controller,
       this.icon,
       this.onTap,
-      this.maaxlines})
+      this.maaxlines,
+      this.type})
       : super(key: key);
   final String hint;
   final int? maaxlines;
+  final TextInputType? type;
   final Widget? icon;
   final VoidCallback? onTap;
 
@@ -39,6 +41,7 @@ class CustomTextField extends StatelessWidget {
             child: TextField(
               maxLines: maaxlines,
               controller: controller,
+              keyboardType: type,
               decoration: InputDecoration(
                   enabled: onTap != null ? false : true,
                   suffixIcon: icon,

@@ -26,13 +26,13 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
   Future<void> _checkStatus(
       CheckPressed event, Emitter<RequestState> emit) async {
     try {
-
+      print('BLOC CHECK 2');
       emit(RequestLoading());
-      print('WORKED HERE 2');
 
       StatusResponse response =
-          await repository.getStatusRequest(event.number, event.code);
-      print('WORKED HERE 3');
+          await repository.getStatusRequest(event.code, event.number);
+      print('BLOC CHECK 3');
+
       emit(RequestSuccess(response));
     } catch (err) {
       if (kDebugMode) {

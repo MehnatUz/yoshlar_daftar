@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yoshlar_daftar/bloc/status/request_bloc.dart';
+import 'package:yoshlar_daftar/repository/status/status_repository.dart';
 import 'package:yoshlar_daftar/result_check_page.dart';
 import 'package:yoshlar_daftar/widgets/custom_text_field.dart';
 import 'package:yoshlar_daftar/widgets/simple_button.dart';
+import 'package:dio/dio.dart';
 
 class StatusPage extends StatefulWidget {
   const StatusPage({Key? key}) : super(key: key);
@@ -15,13 +17,13 @@ class StatusPage extends StatefulWidget {
 
 class _StatusPageState extends State<StatusPage> {
   final bloc = RequestBloc();
+  final repo = StatusRepository();
   TextEditingController controllerCode = TextEditingController();
   TextEditingController controllerNumber = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final scaffold = ScaffoldMessenger.of(context);
-
     return BlocProvider.value(
       value: bloc,
       child: Scaffold(
@@ -45,12 +47,10 @@ class _StatusPageState extends State<StatusPage> {
               );
             }
             if (state is RequestSuccess) {
-              Navigator.push(
-                context,
-                CupertinoPageRoute(
-                  builder: (_) => const ResultCheckPage(),
-                ),
-              );
+              WidgetsBinding.instance!.addPostFrameCallback((_) {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const ResultCheckPage()));
+              });
             }
             return SingleChildScrollView(
               child: Padding(
@@ -108,7 +108,9 @@ class _StatusPageState extends State<StatusPage> {
                         hint: 'Ariza ID raqami', controller: controllerNumber),
                     const SizedBox(height: 20),
                     CustomTextField(
-                        hint: 'Tekshirish kodi', controller: controllerCode),
+                        type: TextInputType.number,
+                        hint: 'Tekshirish kodi',
+                        controller: controllerCode),
                     const SizedBox(height: 41),
                     SimpleButton(
                       text: 'Tekshirish',

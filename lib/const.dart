@@ -1,6 +1,6 @@
 String version = 'v1';
 
-String base_url = 'https://daftar.mehnat.uz/';
+String base_url = 'http://daftar.mehnat.uz/';
 String url_status_request = 'api/api/v2/check-status-application';
 
 String url_models = 'api/$version/car/models/';
